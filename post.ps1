@@ -1,8 +1,8 @@
-
 param(
     # Add Resource ID below if you dont want to add multiple database at a time
     # $resourceID = "", 
-    $diagName = "ankurdiag",
+    $diagNameEvent = "ankurdiagevent", 
+    $diagNameLaws = "ankurdiaglaws",
     # Add your log analytics workspace ID here at below
     $laws = "samplelaws",
     # add your eventhub rule ID here
@@ -16,5 +16,6 @@ $metrics = '[{\"category\":\"AllMetrics\",\"retentionPolicy\":{\"days\":0,\"enab
 $logs = '[{\"category\":\"PostgreSQLLogs\",\"retentionPolicy\":{\"days\":0,\"enabled\":false},\"enabled\":true}]'
             
 foreach ($resourceID in Get-Content .\file.txt) {
-    az monitor diagnostic-settings create --resource $resourceID -n $diagName --workspace $laws --event-hub-rule $eventRule --event-hub $eventHubName --logs $logs --metrics $metrics   
+    az monitor diagnostic-settings create --resource $resourceID -n $diagNameEvent --event-hub-rule $eventRule --event-hub $eventHubName --logs $logs
+    az monitor diagnostic-settings create --resource $resourceID -n $diagNameLaws --workspace $laws --metrics $metrics   
 }
